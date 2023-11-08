@@ -28,6 +28,9 @@ function draw() {
   let r = width * 0.3;
 
   if (sound.isPlaying()) {
+    if (stars.length > 500) {
+      stars.splice(0, stars.length - 500);
+    }
     for (let a = 0; a < 2 * PI; a += PI / 25) {
       let index = int(map(a, 0, 2 * PI, 0, 1024));
       let curH = abs(300 * waveform[index]);
