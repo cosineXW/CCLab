@@ -1,0 +1,20 @@
+##box1{
+    background-color: azure;
+    border-style: dashed;
+    border-color: blue;
+    border-width: 5px;
+    height: 200px;
+width: 300px;
+padding-top: 30px;
+padding-left: 30px;
+position: static;
+}
+
+
+#box2{
+    background-attachment:orange;
+  border: solid yellow;
+  border-width: 3px;
+  height: 200px;
+width: 300px;
+}
