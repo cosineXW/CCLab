@@ -1,9 +1,6 @@
 let index = 0;
 let flowerImages = [];
 let bubbleImages=[]
-let xcz1
-let xcz2
-let xcz
 let sunflower
 let wogua
 let mic
@@ -13,41 +10,39 @@ let d3
 let d4
 let d5
 let d6
-let flowers = [];
-let bubbles=[]
 let zo1
 let zo2
-let zo3
-let zo4
-
+let flowers = [];
+let bubbles=[]
 let img;
 let bgm;
-let i;
+let i
 let drum;
 let drumbutton;
 let at;
 function preload(){
   drum = loadImage("pb/32.png")
+  mic=loadImage("pb/2.png")
   drumbutton=loadImage('R.jpg')
   sunflower=loadImage('pb/17.gif')
   img=loadImage("pb/1.jpg");
   at=loadImage("B.jpg")
   bgm=loadSound("bgm.ogg");
-  xcz1=loadImage("pb/6.gif")
-  d1=loadSound("drum/d1.mp3")
-  d2=loadSound("drum/d2.mp3")
-  d3=loadSound("drum/d3.mp3")
+  d1=loadSound("drum/d1.mp3");
+  d2=loadSound("drum/d2.mp3");
+  d3=loadSound("drum/d3.mp3");
   d4=loadSound("drum/d4.mp3")
   d5=loadSound("drum/d5.mp3")
   d6=loadSound("drum/d6.mp3")
-  for(let i = 0; i < 9; i ++){
-    let url = "flower/h" + parseInt(i+1) + ".png";
-    flowerImages.push(loadImage(url));
-  }
-  for(let i = 0; i < 7; i ++){
-    let url = "bubble/h" + parseInt(i+1) + ".png";
-    flowerImages.push(loadImage(url));
-  }
+  zo1=loadImage("")
+  // for(let i = 0; i < 9; i ++){
+  //   let url = "../PROB/flower/h" + parseInt(i+1) + ".png";
+  //   flowerImages.push(loadImage(url));
+  // }
+  // for(let i = 0; i < 7; i ++){
+  //   let url = "../PROB/bubble/h" + parseInt(i+1) + ".png";
+  //   flowerImages.push(loadImage(url));
+  // }
 }
 
 function setup() {
@@ -56,7 +51,7 @@ function setup() {
   // console.log(document.getElementsByClassName("bluebox"));
   canvas.parent("bluebox")
     console.log(flowerImages);
-    xcz=xcz1
+    
 
 }
   
@@ -65,13 +60,14 @@ function setup() {
 
 
 function draw(){
-  console.log(index)
-
+console.log(index)
 background(220)  
 image(img,0,0)
 image(drumbutton,10,710)
 image(at,50,710)
 image(sunflower,550,440)
+image(drum,550,800)
+image(mic,550,730)
 
 if(!bgm.isPlaying()){
 bgm.loop();
@@ -158,7 +154,7 @@ function mouseClicked(){
 class bubble{
   constructor(x){
     this.x =x;
-    this.y = random(-500, 0);
+    this.y = random(30,700);
     this.xspd =0;
     this.yspd = 0;
     this.yA = random(0.05,0.1);

@@ -78,14 +78,14 @@ right:100px
 .box-center {
   width: 100%;
 }
-.box-center .bluebox {
+/* .box-center .bluebox {
   position: absolute;
   top: 800px;
   width: 1200px;
   height: 750px;
   margin: auto;
   background-color: #4472c4;
-}
+} */
 .box-bottom {
   position: absolute;
   top: 1600px;
