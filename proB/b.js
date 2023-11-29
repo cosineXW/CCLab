@@ -22,6 +22,7 @@ let bgm;
 let i;
 let drum;
 let drumbutton;
+
 let at;
 function preload() {
   drum = loadImage("pb/32.png");
@@ -43,6 +44,9 @@ function preload() {
   wogua=loadImage('pb/6.gif')
   zo1=loadImage('pb/8.gif')
   zo2=loadImage('pb/92.gif')
+  
+  zo3=loadImage('pb/12.gif')
+  zo4=loadImage('pb/13.gif')
   for (let i = 0; i < 9; i++) {
     let url = "../flower/h" + parseInt(i + 1) + ".png";
     flowerImages.push(loadImage(url));
@@ -51,14 +55,16 @@ function preload() {
     let url = "../bubble/b" + parseInt(i + 1) + ".png";
     bubbleImages.push(loadImage(url));
   }
-  for (let i = 0; i < 4; i++) {
-    let url = "../cd/d" + parseInt(i + 1) + ".png";
-    cdImages.push(loadImage(url));
-  }
+  
 }
 
 function setup() {
+  console.log(zo3,zo4)
   index = 0
+  zos.push(zo1,zo2)
+  for (let i = 0; i < 12; i++) {
+    zoImages.push(new zo());
+  }
   let canvas = createCanvas(1200, 750);
   // console.log(document.getElementsByClassName("bluebox"));
   canvas.parent("bluebox")
@@ -73,8 +79,7 @@ function setup() {
 
 function draw() {
   console.log(index)
-  let x=100*noise(0.005*frameCount)
-  let y=100*noise(sin(frameCount * 0.01)+10000)
+  
 
   background(220)
   image(img, 0, 0)
@@ -84,29 +89,20 @@ function draw() {
   image(sunflower, 550, 440)
   image(wogua, 660,300)
   image(mic,560,350)
+  
   image(drum,700,350)
+  
  image(sheshou,300,450)
 
- image(zo1,300+x,600-y)
- image(zo1,400+x,550-y)
- image(zo2,600,630)
- push()
-translate(500,590)
- rotate(noise(0.005*frameCount))
- scale(noise(0.005*frameCount))
- image(zo2,0,0)
-pop()
- image(zo1,700,560)
- image(zo1,800,570)
- image(zo2,900,590)
- image(zo2,1000,600)
- image(zo2,200,600)
- image(zo2,300,570)
- push()
- scale(0.8)
+ 
+ 
   image(piano,420,500)
-  pop()
-
+ 
+  for (let i = 0; i < zoImages.length; i++) {
+    zoImages[i].update()
+    zoImages[i].display()
+  }
+  
   if (!bgm.isPlaying()) {
     bgm.loop();
   }
@@ -158,6 +154,7 @@ pop()
 
 function keyPressed() {
   if (index == 1) {//敲鼓
+    
     if (key == "a") {
       if (!d1.isPlaying()) {
         d1.play();
@@ -212,7 +209,8 @@ function mouseClicked() {
   if (mouseX < 80 && mouseX > 50 && mouseY > 710 && mouseY < 740) {
     index = 2;
   }
-  if (mouseX < 90 && mouseX > 120 && mouseY > 710 && mouseY < 740) {
+  if (mouseX > 90 && mouseX < 120 && mouseY > 710 && mouseY < 740) {
+    console.log("aaaa")
     index = 3;
   }
 }
@@ -313,3 +311,47 @@ class cd {
 
 }
 
+class zo {
+  constructor() {
+    this.x = random(50,1150);
+    this.y = random(500,600);
+    this.xspd = 0;
+    this.yspd = 0;
+    this.yA = random(0.1,0.2);
+    this.image = zos[floor(random(0,2))];
+    this.s = 1
+    this.rotateAng = 0;
+    this.freq = random(0.01, 0.06);
+
+
+
+  }
+  display() {
+    push();
+    translate(this.x, this.y);
+    scale(this.s);
+    rotate(this.rotateAng);
+    image(this.image, this.xspd,this.yspd);
+    pop();
+  }
+  update() {
+    this.xspd = map(noise(sin(frameCount * this.freq)), 0, 1, -20, 20);
+    this.yspd = map(noise(sin(frameCount * this.freq)), 0, 1, -10,10);
+  if(index==3){
+      if(this.image==zos[0]){
+        
+        this.image= zo3;
+        console.log("zo333333333",this.image);
+      }else if(this.image==zos[1]){
+     this.image= zo4;
+     console.log("zo4444444444", this.image);
+      }
+        this.s=map(noise(sin(frameCount *this.freq)), 0, 1, 0.8,1.2)
+this.rotateAng = map(sin(frameCount * this.freq), -1, 1, 0, PI / 5);
+  }
+    
+
+
+  }
+
+}
