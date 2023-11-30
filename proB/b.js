@@ -54,11 +54,11 @@ function preload() {
   zo3=loadImage('pb/12.gif')
   zo4=loadImage('pb/13.gif')
   for (let i = 0; i < 9; i++) {
-    let url = "../flower/h" + parseInt(i + 1) + ".png";
+    let url = "flower/h" + parseInt(i + 1) + ".png";
     flowerImages.push(loadImage(url));
   }
   for (let i = 0; i < 7; i++) {
-    let url = "../bubble/b" + parseInt(i + 1) + ".png";
+    let url = "bubble/b" + parseInt(i + 1) + ".png";
     bubbleImages.push(loadImage(url));
   }
   
