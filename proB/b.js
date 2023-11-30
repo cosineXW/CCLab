@@ -13,6 +13,9 @@ let d3;
 let d4;
 let d5;
 let d6;
+let brain;
+let bomb;
+let mouse;
 let flowers = [];
 let bubbles = [];
 let zb
@@ -22,7 +25,8 @@ let bgm;
 let i;
 let drum;
 let drumbutton;
-
+let balls=[];
+let dou;
 let at;
 function preload() {
   drum = loadImage("pb/32.png");
@@ -34,6 +38,7 @@ function preload() {
   img = loadImage("pb/1.jpg");
   at = loadImage("B.jpg");
   bgm = loadSound("bgm.ogg");
+  dou=loadImage('pb/dou.gif')
   zb=loadImage('Z.jpg')
   d1 = loadSound("drum/d1.mp3");
   d2 = loadSound("drum/d2.mp3");
@@ -44,7 +49,8 @@ function preload() {
   wogua=loadImage('pb/6.gif')
   zo1=loadImage('pb/8.gif')
   zo2=loadImage('pb/92.gif')
-  
+  brain=loadImage('pb/12.png')
+  bomb=loadImage('pb/1.gif')
   zo3=loadImage('pb/12.gif')
   zo4=loadImage('pb/13.gif')
   for (let i = 0; i < 9; i++) {
@@ -56,10 +62,12 @@ function preload() {
     bubbleImages.push(loadImage(url));
   }
   
+  
 }
 
 function setup() {
   console.log(zo3,zo4)
+  mouse=brain
   index = 0
   zos.push(zo1,zo2)
   for (let i = 0; i < 12; i++) {
@@ -79,24 +87,21 @@ function setup() {
 
 function draw() {
   console.log(index)
-  
 
   background(220)
   image(img, 0, 0)
   image(drumbutton, 10, 710)
   image(at, 50, 710)
   image(zb, 90, 710)
-  image(sunflower, 550, 440)
-  image(wogua, 660,300)
-  image(mic,560,350)
+  image(sunflower, 600, 440)
+  image(wogua, 700,300)
+  image(mic,620,350)
   
-  image(drum,700,350)
+  image(drum,420,350)
   
  image(sheshou,300,450)
-
- 
- 
-  image(piano,420,500)
+  image(mouse,mouseX,mouseY)
+  image(piano,760,390)
  
   for (let i = 0; i < zoImages.length; i++) {
     zoImages[i].update()
@@ -107,7 +112,13 @@ function draw() {
     bgm.loop();
   }
   // image(drum, 0, 0);
-
+  for (let i = 0; i < balls.length; i++) {
+    balls[i].update();
+    balls[i].display();
+    if (balls[i].x > 500) {
+      balls.splice(i, 1);
+    }
+  }
   for (let i = 0; i < flowers.length; i++) {
     flowers[i].update()
     flowers[i].display()
@@ -127,8 +138,8 @@ function draw() {
   
 
   // console.log(bgm.isPlaying);
-  if (keyIsPressed === true) {
-    if(index == 2){//撒花
+  if (keyIsPressed === true) {//撒花
+    if(index == 2){
       if (key == "n") {
    
        for (let i = 0; i < 100; i++) {
@@ -151,29 +162,48 @@ function draw() {
   }
 }
 
+class Ball {
+  constructor() {
+    this.x=300
+    this.y=450
+    this.xs=10
+  }
 
-function keyPressed() {
-  if (index == 1) {//敲鼓
+  update() {
+    this.x+=this.xs
+  }
+
+  display() {
+    image(dou,this.x, this.y);
+  }
+}
+function keyPressed() {//敲鼓
+  if (index == 1) {
+    
+
     
     if (key == "a") {
       if (!d1.isPlaying()) {
         d1.play();
         console.log('play1');
-
+     let ball = new Ball();
+      balls.push(ball);
       }
     }
     if (key == "s") {
       if (!d2.isPlaying()) {
         d2.play();
         console.log('play1');
-
+        let ball = new Ball();
+        balls.push(ball);
       }
     }
     if (key == "d") {
       if (!d3.isPlaying()) {
         d3.play();
-        console.log('play1');
-
+        console.log('play1')
+        let ball = new Ball();
+      balls.push(ball);
       }
     }
 
@@ -181,21 +211,24 @@ function keyPressed() {
       if (!d4.isPlaying()) {
         d4.play();
           console.log('play1');
-
+          let ball = new Ball();
+          balls.push(ball);
       }
     }
     if (key == "g") {
       if (!d5.isPlaying()) {
         d5.play();
         console.log('play2');
-
+        let ball = new Ball();
+        balls.push(ball);
       }
     }
     if (key == "h") {
       if (!d6.isPlaying()) {
         d6.play();
         console.log('play3');
-
+        let ball = new Ball();
+      balls.push(ball);
       }
     }
   }
@@ -279,79 +312,69 @@ class flower {
 
 }
 
-class cd {
-  constructor(y) {
-    this.x = random(-300, 0);
-    this.y = y;
-    this.xspd = 0;
-    this.yspd = 0;
-    this.yA = random(0.1,0.2);
-    this.s = random(0.2, 0.3)
-    this.rotateAng = 0;
-    this.imageIndex = floor(random(0, 7));
-
-
-  }
-  display() {
-    push();
-    translate(this.x, this.y);
-    scale(this.s);
-    rotate(this.rotateAng);
-    image(flowerImages[this.imageIndex], 0, 0);
-    pop();
-  }
-  update() {
-    this.xspd = map(noise(sin(frameCount * 0.01)), 0, 1, -0.1, 0.1);
-    this.yspd += this.yA;
-    this.rotateAng = map(sin(frameCount * 0.01), -1, 1, 0, PI / 5);
-    this.x += this.xspd;
-    this.y += this.yspd;
-
-  }
-
-}
 
 class zo {
   constructor() {
-    this.x = random(50,1150);
-    this.y = random(500,600);
+    this.x = random(50, 1150);
+    this.y = random(500, 600);
     this.xspd = 0;
     this.yspd = 0;
-    this.yA = random(0.1,0.2);
-    this.image = zos[floor(random(0,2))];
-    this.s = 1
+    this.yA = random(0.1, 0.2);
+    this.image = zos[floor(random(0, 2))];
+    this.s = 1;
     this.rotateAng = 0;
-    this.freq = random(0.01, 0.06);
-
-
-
+    this.freq = random(0.01, 0.06); 
+    constrain
   }
   display() {
     push();
     translate(this.x, this.y);
     scale(this.s);
     rotate(this.rotateAng);
-    image(this.image, this.xspd,this.yspd);
+    image(this.image, this.xspd, this.yspd);
     pop();
   }
   update() {
+    const dx = mouseX - this.x;
+    const dy = mouseY - this.y;
+    const distance = sqrt(dx ** 2 + dy ** 2);
+
+    if (mouseIsPressed) { 
+      mouse=bomb
+      push()
+      fill(255,0,0)
+      textSize(100)
+      text('The BOMB is coming',20,height/2)
+      pop()
+      const speed = this.freq * 200;
+      const directionX = -dx / distance; 
+      const directionY = -dy / distance; 
+      this.x += directionX * speed;
+      // this.y += directionY * speed;
+    } else if (distance > 1) { 
+      fill(255)
+      text('click me',mouseX,mouseY+40)
+      mouse=brain
+      const speed = this.freq * 50;
+      const directionX = dx / distance;
+      const directionY = dy / distance;
+      this.x += directionX * speed;
+      // this.y += directionY * speed;
+    }
+
     this.xspd = map(noise(sin(frameCount * this.freq)), 0, 1, -20, 20);
-    this.yspd = map(noise(sin(frameCount * this.freq)), 0, 1, -10,10);
-  if(index==3){
-      if(this.image==zos[0]){
-        
-        this.image= zo3;
-        console.log("zo333333333",this.image);
-      }else if(this.image==zos[1]){
-     this.image= zo4;
-     console.log("zo4444444444", this.image);
+    this.yspd = map(noise(sin(frameCount * this.freq)), 0, 1, -10, 10);
+
+    if (index == 3) {
+      if (this.image === zos[0]) {
+        this.image = zo3;
+        console.log("zo333333333", this.image);
+      } else if (this.image === zos[1]) {
+        this.image = zo4;
+        console.log("zo4444444444", this.image);
       }
-        this.s=map(noise(sin(frameCount *this.freq)), 0, 1, 0.8,1.2)
-this.rotateAng = map(sin(frameCount * this.freq), -1, 1, 0, PI / 5);
+      this.s = map(noise(sin(frameCount * this.freq)), 0, 1, 0.7, 1.3);
+      this.rotateAng = map(sin(frameCount * this.freq ), -1, 1, -PI / 6, PI / 6);
+    }
   }
-    
-
-
-  }
-
 }

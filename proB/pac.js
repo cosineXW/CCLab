@@ -6,32 +6,28 @@ let monsters = [];
 let monsterSize = 30;
 let score = 0;
 let isMouseClicked = false;
-let zo
-let sun
+let zobi;
+let sun;
 let obstacles = [];
 let obstacleWidth = 250;
 const obstacleHeight = 20;
 
 function preload(){
-    zo=loadImage('Z.jpg')
+    zobi=loadImage('Z.jpg')
     sun=loadImage('pb/11.png')
 }
 function setup() {
-  // Create canvas and initialize objects
   createCanvas(850,850);
   player = {x: width / 2, y: height / 2, speed: 5, size: 30};
 
-  // Add beans
   for (let i = 0; i < totalBeans; i++) {
     beans.push({x: random(width - beansSize), y: random(height - beansSize)});
   }
 
-  // Add monsters
   for (let i = 0; i < 7; i++) {
     monsters.push({x: random(width), y: random(height), speed: 2});
   }
 
-  // Add obstacles
   for (let i = 0; i < 10; i++) {
     obstacles.push({x: random(width - obstacleWidth), y: random(height - obstacleHeight)});
   }
@@ -56,28 +52,18 @@ function draw() {
       obstacle.y += random(-4, 4);
     }
   }
-
-  // Display beans
   for (let bean of beans) {
     showBean(bean);
   }
-
-  // Display monsters
   for (let monster of monsters) {
     showMonster(monster);
   }
-
-  // Display obstacles
   for (let obstacle of obstacles) {
     showObstacle(obstacle);
   }
-
-  // Check collision
   if (checkCollision()) {
     gameOver();
   }
-
-  // Eat beans
   for (let i = beans.length - 1; i >= 0; i--) {
     if (dist(player.x, player.y, beans[i].x, beans[i].y) < (player.size + beansSize) / 2) {
       score += 1;
@@ -90,14 +76,12 @@ function draw() {
     }
   }
 
-  // Collide with monsters
   for (let i = monsters.length - 1; i >= 0; i--) {
     if (dist(player.x, player.y, monsters[i].x, monsters[i].y) < monsterSize / 2) {
       gameOver();
     }
   }
 
-  // Display score
   textSize(32);
   fill(0);
   text("Score: " + score, 10, 30);
@@ -152,14 +136,14 @@ function checkCollision() {
 }
 
 function showBean(bean) {
-  scale(0.5)
+  
   image(sun,bean.x,bean.y)
   
 }
 
 function showMonster(monster) {
-  fill(0, 0, 255);
-  ellipse(monster.x, monster.y, monsterSize);
+  image(zobi,bean.x,bean.y)
+
 }
 
 function moveMonster(monster) {
@@ -185,7 +169,7 @@ function gameOver() {
   text("Restart: push SPACE to restart", width / 2, height / 2 - 30);
 }
 function keyPressed() {
-  if (keyCode === 32) { // 32 is the keycode for spacebar
+  if (keyCode === 32) { 
     resetGame();
   }
 }
