@@ -1,5 +1,4 @@
 const totalBeans =25;
-const beansSize = 15;
 let player;
 let beans = [];
 let monsters = [];
@@ -14,7 +13,7 @@ const obstacleHeight = 20;
 
 function preload(){
     zobi=loadImage('Z.jpg')
-    sun=loadImage('pb/11.png')
+    sun=loadImage('pb/11.gif')
 }
 function setup() {
   createCanvas(850,850);

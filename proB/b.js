@@ -323,7 +323,7 @@ class zo {
     this.image = zos[floor(random(0, 2))];
     this.s = 1;
     this.rotateAng = 0;
-    this.freq = random(0.01, 0.06); 
+    this.freq = random(0.01, 0.03); 
     constrain
   }
   display() {
@@ -346,7 +346,10 @@ class zo {
       textSize(100)
       text('The BOMB is coming',20,height/2)
       pop()
-      const speed = this.freq * 200;
+      if(this.x<10||this.x>1100){
+        this.speed=0
+      }
+      const speed = this.freq * 300;
       const directionX = -dx / distance; 
       const directionY = -dy / distance; 
       this.x += directionX * speed;
@@ -355,7 +358,7 @@ class zo {
       fill(255)
       text('click me',mouseX,mouseY+40)
       mouse=brain
-      const speed = this.freq * 50;
+      const speed = this.freq * 100;
       const directionX = dx / distance;
       const directionY = dy / distance;
       this.x += directionX * speed;
