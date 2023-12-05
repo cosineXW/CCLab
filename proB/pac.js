@@ -1,19 +1,24 @@
 const totalBeans =25;
-const beansSize = 15;
+const beansSize = 30;
 let player;
 let beans = [];
 let monsters = [];
-let monsterSize = 30;
+let monsterSize = 50;
 let score = 0;
 let isMouseClicked = false;
-
+let sun;
 let obstacles = [];
 let obstacleWidth = 250;
 const obstacleHeight = 20;
 
+function preload(){
+  sun=loadImage('pb/11.png')
+  zob=loadImage('pb/zob.png')
+  
+}
 function setup() {
   // Create canvas and initialize objects
-  createCanvas(850,850);
+  createCanvas(800,800);
   player = {x: width / 2, y: height / 2, speed: 5, size: 30};
 
   // Add beans
@@ -149,6 +154,7 @@ function checkCollision() {
 function showBean(bean) {
   fill(0, 255, 0);
   ellipse(bean.x, bean.y, beansSize);
+  // img(sun,bean.x,bean.y)
 }
 
 function showMonster(monster) {

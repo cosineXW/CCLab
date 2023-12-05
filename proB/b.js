@@ -23,11 +23,20 @@ let zos=[];
 let img;
 let bgm;
 let i;
+let l1
+let l2
+let l3
 let drum;
 let drumbutton;
 let balls=[];
 let dou;
 let at;
+let jumpHeight = 100; // 跳跃的高度
+let yPos = 0; // 图像的垂直位置
+let ySpeed = 0; // 图像的垂直速度
+let gravity = 0.5; 
+
+
 function preload() {
   drum = loadImage("pb/32.png");
   piano=loadImage("pb/5.png")
@@ -53,6 +62,9 @@ function preload() {
   bomb=loadImage('pb/1.gif')
   zo3=loadImage('pb/12.gif')
   zo4=loadImage('pb/13.gif')
+  l1=loadImage('pb/l1.png')
+  l2=loadImage('pb/l2.png')
+  l3=loadImage('pb/l3.png')
   for (let i = 0; i < 9; i++) {
     let url = "flower/h" + parseInt(i + 1) + ".png";
     flowerImages.push(loadImage(url));
@@ -66,6 +78,7 @@ function preload() {
 }
 
 function setup() {
+  yPos = 440;
   console.log(zo3,zo4)
   mouse=brain
   index = 0
@@ -90,10 +103,69 @@ function draw() {
 
   background(220)
   image(img, 0, 0)
-  image(drumbutton, 10, 710)
-  image(at, 50, 710)
+  // image(drumbutton, 10, 710)
+  // image(at, 50, 710)
+
+  push()
+  translate(-150,-300);
+  scale(0.5);
+  rotate(sin(frameCount*0.1));
+  translate(0,-50);
+
+  image(l1,0,0)
+  pop()
+
+
+  push()
+  translate(1250,-500);
+  scale(0.5);
+  rotate(sin(frameCount*0.1));
+  translate(0,-50);
+  image(l2,0,0)
+  pop()
+
+  push()
+  scale(0.5);
+  translate(600,0);
+  rotate(sin(frameCount*0.1));
+  image(l3,0,-300)
+  pop()
+  
+  push()
+  scale(0.5);
+  translate(200,0);
+  rotate(-sin(frameCount*0.1));
+  image(l3,0,-300)
+  pop()
+  push()
+  scale(0.5);
+  translate(1200,0);
+  rotate(-sin(frameCount*0.1));
+  image(l3,0,-300)
+  pop()
+  
+  push()
+  scale(0.5);
+  translate(1000,0);
+  rotate(sin(frameCount*0.1));
+  image(l3,0,-300)
+  pop()
+
   image(zb, 90, 710)
-  image(sunflower, 600, 440)
+  if (keyIsPressed && key === 'm') {
+        if (yPos === height - groundHeight) {
+      ySpeed = -10; 
+    }
+  }
+       ySpeed += gravity; 
+       yPos += ySpeed; 
+    if (yPos >= 440) {
+      yPos = 440;
+      ySpeed = 0;
+     }
+  image(sunflower, 600, yPos)
+
+
   image(wogua, 700,300)
   image(mic,620,350)
   
@@ -139,7 +211,7 @@ function draw() {
 
   // console.log(bgm.isPlaying);
   if (keyIsPressed === true) {//撒花
-    if(index == 2){
+    // if(index == 2){
       if (key == "n") {
    
        for (let i = 0; i < 100; i++) {
@@ -160,7 +232,7 @@ function draw() {
     } 
 
   }
-}
+
 
 class Ball {
   constructor() {
@@ -178,7 +250,7 @@ class Ball {
   }
 }
 function keyPressed() {//敲鼓
-  if (index == 1) {
+  // if (index == 1) {
     
 
     
@@ -233,15 +305,15 @@ function keyPressed() {//敲鼓
     }
   }
 
-}
+
 
 function mouseClicked() {
-  if (mouseX < 40 && mouseX > 10 && mouseY > 710 && mouseY < 740) {
-    index = 1;
-  }
-  if (mouseX < 80 && mouseX > 50 && mouseY > 710 && mouseY < 740) {
-    index = 2;
-  }
+  // if (mouseX < 40 && mouseX > 10 && mouseY > 710 && mouseY < 740) {
+  //   index = 1;
+  // }
+  // if (mouseX < 80 && mouseX > 50 && mouseY > 710 && mouseY < 740) {
+  //   index = 2;
+  // }
   if (mouseX > 90 && mouseX < 120 && mouseY > 710 && mouseY < 740) {
     console.log("aaaa")
     index = 3;
@@ -324,7 +396,7 @@ class zo {
     this.s = 1;
     this.rotateAng = 0;
     this.freq = random(0.01, 0.03); 
-    constrain
+    
   }
   display() {
     push();
@@ -339,6 +411,7 @@ class zo {
     const dy = mouseY - this.y;
     const distance = sqrt(dx ** 2 + dy ** 2);
 
+    this.xspd = constrain(this.xspd,-100,1300);
     if (mouseIsPressed) { 
       mouse=bomb
       push()
@@ -346,19 +419,18 @@ class zo {
       textSize(100)
       text('The BOMB is coming',20,height/2)
       pop()
-      if(this.x<10||this.x>1100){
-        this.speed=0
-      }
-      const speed = this.freq * 300;
+      
+      const speed = this.freq * 500;
       const directionX = -dx / distance; 
       const directionY = -dy / distance; 
       this.x += directionX * speed;
+
       // this.y += directionY * speed;
     } else if (distance > 1) { 
       fill(255)
       text('click me',mouseX,mouseY+40)
       mouse=brain
-      const speed = this.freq * 100;
+      const speed = this.freq * 150;
       const directionX = dx / distance;
       const directionY = dy / distance;
       this.x += directionX * speed;
@@ -377,7 +449,7 @@ class zo {
         console.log("zo4444444444", this.image);
       }
       this.s = map(noise(sin(frameCount * this.freq)), 0, 1, 0.7, 1.3);
-      this.rotateAng = map(sin(frameCount * this.freq ), -1, 1, -PI / 6, PI / 6);
+      this.rotateAng = map(sin(frameCount * this.freq ), -1, 1, -PI / 6, PI / 6); 
     }
   }
 }
