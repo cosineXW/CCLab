@@ -2,7 +2,6 @@ let index = 0;
 let flowerImages = [];
 let bubbleImages = [];
 let zoImages=[];
-let sunflower;
 let wogua;
 let sheshou;
 let piano;
@@ -31,10 +30,12 @@ let drumbutton;
 let balls=[];
 let dou;
 let at;
-let jumpHeight = 100; // 跳跃的高度
-let yPos = 0; // 图像的垂直位置
-let ySpeed = 0; // 图像的垂直速度
-let gravity = 0.5; 
+let yPos = 440; 
+let ySpeed = 0; 
+let gravity = 1; 
+let sunflower;
+
+let size = 1;
 
 
 function preload() {
@@ -78,7 +79,7 @@ function preload() {
 }
 
 function setup() {
-  yPos = 440;
+  noCursor();
   console.log(zo3,zo4)
   mouse=brain
   index = 0
@@ -99,19 +100,20 @@ function setup() {
 
 
 function draw() {
-  console.log(index)
+  
 
   background(220)
   image(img, 0, 0)
-  // image(drumbutton, 10, 710)
-  // image(at, 50, 710)
+  
+  
+
+  
 
   push()
   translate(-150,-300);
   scale(0.5);
   rotate(sin(frameCount*0.1));
   translate(0,-50);
-
   image(l1,0,0)
   pop()
 
@@ -149,24 +151,19 @@ function draw() {
   translate(1000,0);
   rotate(sin(frameCount*0.1));
   image(l3,0,-300)
-  pop()
-
+  pop();
   image(zb, 90, 710)
-  if (keyIsPressed && key === 'm') {
-        if (yPos === height - groundHeight) {
-      ySpeed = -10; 
-    }
-  }
-       ySpeed += gravity; 
-       yPos += ySpeed; 
-    if (yPos >= 440) {
-      yPos = 440;
-      ySpeed = 0;
-     }
+
   image(sunflower, 600, yPos)
 
+   push()
+   translate(730,400)
+   imageMode(CENTER);
+   scale(size)
+   image(wogua,0,0)
+   pop()
 
-  image(wogua, 700,300)
+
   image(mic,620,350)
   
   image(drum,420,350)
@@ -174,6 +171,13 @@ function draw() {
  image(sheshou,300,450)
   image(mouse,mouseX,mouseY)
   image(piano,760,390)
+  text('press a s d f g h',300,450)
+  text('keep press j',590,440)
+  push()
+  fill(255,0,0)
+  text('keep press k',720,550)
+  pop()
+  text('click the button',50,700)
  
   for (let i = 0; i < zoImages.length; i++) {
     zoImages[i].update()
@@ -187,7 +191,7 @@ function draw() {
   for (let i = 0; i < balls.length; i++) {
     balls[i].update();
     balls[i].display();
-    if (balls[i].x > 500) {
+    if (balls[i].x > 480) {
       balls.splice(i, 1);
     }
   }
@@ -211,7 +215,27 @@ function draw() {
 
   // console.log(bgm.isPlaying);
   if (keyIsPressed === true) {//撒花
-    // if(index == 2){
+    if(key=='j'){
+      if (yPos === 440) {
+        ySpeed = -10;
+    
+      }
+    ySpeed += gravity;
+    yPos += ySpeed;
+    if (yPos >= 440) {
+      yPos = 440;
+      ySpeed = 0;
+     
+    }
+    }
+    if(key=='k'){
+      size=map(noise(sin(frameCount*0.05)),0,1,0.5,1.8)
+      xp=map(noise(sin(frameCount)),0,1,-10,10)
+    }else{
+      xp=0
+      size=1
+    }
+    
       if (key == "n") {
    
        for (let i = 0; i < 100; i++) {
@@ -224,14 +248,11 @@ function draw() {
          bubbles.push(new bubble(random(0, width)));
        }
      }
-     if (key == "m") {
-      for (let i = 0; i < 20; i++) {
-        cds.push(new cd(random(0, height)));
-      }
-    }
+     
     } 
-
   }
+
+  
 
 
 class Ball {
@@ -251,9 +272,8 @@ class Ball {
 }
 function keyPressed() {//敲鼓
   // if (index == 1) {
-    
 
-    
+  
     if (key == "a") {
       if (!d1.isPlaying()) {
         d1.play();
@@ -438,7 +458,7 @@ class zo {
     }
 
     this.xspd = map(noise(sin(frameCount * this.freq)), 0, 1, -20, 20);
-    this.yspd = map(noise(sin(frameCount * this.freq)), 0, 1, -10, 10);
+    this.yspd = map(noise(sin(frameCount * this.freq)), 0, 1, 0, 10);
 
     if (index == 3) {
       if (this.image === zos[0]) {
@@ -448,7 +468,7 @@ class zo {
         this.image = zo4;
         console.log("zo4444444444", this.image);
       }
-      this.s = map(noise(sin(frameCount * this.freq)), 0, 1, 0.7, 1.3);
+      this.s = map(noise(sin(frameCount * this.freq)), 0, 1, 0.7, 1.5);
       this.rotateAng = map(sin(frameCount * this.freq ), -1, 1, -PI / 6, PI / 6); 
     }
   }
